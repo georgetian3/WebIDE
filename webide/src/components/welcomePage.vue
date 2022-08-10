@@ -37,8 +37,7 @@
 
         <el-main>
           <el-table :data="tableData">
-            <el-table-column prop="label" label="projects available" width="140">
-            </el-table-column>
+            <el-table-column prop="label" label="projects available"></el-table-column>
           </el-table>
         </el-main>
       </el-container>
@@ -62,6 +61,10 @@ export default {
 </script>
 
 <style>
+* {
+  text-align: center;
+}
+
 .el-header {
   background-color: #B3C0D1;
   color: #333;
