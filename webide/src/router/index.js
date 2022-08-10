@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import welcomePage from '@/components/welcomePage'
+import codePage from '@/components/codePage'
 
 Vue.use(Router)
 
@@ -11,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'welcomePage',
       component: welcomePage
+    },
+    {
+      path: '/coding',
+      name: 'codePage',
+      component: codePage
     }
   ]
 })
