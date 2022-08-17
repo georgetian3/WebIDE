@@ -3,21 +3,26 @@
     <el-row>
       <el-col :span="24">
         <div class="welcome">
-          <h2>Welcome to our online IDE!</h2>
+          <p>
+            <img src="../assets/vscode-logo.png" id="logopic">
+          </p>
+          <h2>Welcome to Pscode Online!</h2>
         </div>
       </el-col>
     </el-row>
     <el-container style="height: 500px; border: 1px solid #eee">
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1']">
-          <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>options</template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1" class="el-icon-menu">create new project</el-menu-item>
-              <el-menu-item index="1-2" class="el-icon-setting">settings</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
+      <el-aside width="160px" style="background-color: rgb(238, 241, 246)">
+        <el-scrollbar style="width:160px">
+          <el-menu :default-openeds="['1']">
+            <el-submenu index="1">
+              <template slot="title"><i class="el-icon-message"></i>options</template>
+              <el-menu-item-group>
+                <el-menu-item index="1-1" class="el-icon-menu" id="createnew">create new project</el-menu-item>
+                <el-menu-item index="1-2" class="el-icon-setting" id="settings">settings</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-menu>
+        </el-scrollbar>
       </el-aside>
 
       <el-container>
@@ -57,13 +62,15 @@ export default {
   }
 
   .el-header {
-    background-color: #B3C0D1;
+    background-color: rgb(200,200,200);
     color: #333;
-    line-height: 60px;
+    line-height: 61px;
+    height: 61px !important;
   }
 
   .el-aside {
     color: #333;
+    overflow: -moz-scrollbars-none;
   }
   .el-row {
     margin-bottom: 20px;
@@ -71,15 +78,70 @@ export default {
   .el-col {
     border-radius: 4px;
   }
+
+  .el-submenu__title{
+    height: 40px;
+    line-height: 46px;
+    padding-left: 0px !important;
+    width: 160px;
+  }
+  .el-menu-item-group__title{
+    padding:0px;
+  }
+  body{
+    position:absolute;
+    width: 80%;
+    left: 10%;
+  }
+  h2{
+    margin-top:40px;
+    margin-bottom: 20px;
+    margin-left: 80px;
+  }
+  #logopic{
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    z-index: 2;
+    width:70px;
+    float:left;
+  }
+  #createnew{
+    top:0px;
+    float: left;
+    padding-left: 10px !important;
+    vertical-align: middle;
+    padding-top:0px;
+    padding-right: 0px;
+    margin-bottom:10px;
+    margin-left: 0px;
+    margin-top: 0px;
+    min-width: 160px;
+    height: 36px;
+    left:0px;
+  }
+  #settings{
+    position: relative;
+    float: left;
+    top:-15px;
+    padding-left: 0px !important;
+    margin-left: 0px;
+    padding-right: 0px;
+    left: 0px;
+    min-width: 160px;
+    height:36px;
+  }
+  .el-submenu.is-opened>.el-submenu__title{
+    background-color: rgb(218,218,218);
+  }
   .welcome {
-    background: #99a9bf;
-    border-radius: 10px;
+    background: rgb(35,35,35);
     min-height: 20px;
     font-size: 20px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: red;
+    color: rgb(224,224,224);
   }
 </style>
