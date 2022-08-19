@@ -40,6 +40,10 @@
         </el-main>
       </el-container>
     </el-container>
+    <div id="footer">
+      <p id="author">作者：陈俊哲、田正祺、孙冯元、梁烨</p>
+      <p>联系方式：xxx@mails.tsinghua.edu.cn</p>
+    </div>
   </div>
 </template>
 
@@ -98,6 +102,20 @@ export default {
     margin-bottom: 20px;
     margin-left: 80px;
   }
+  p{
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+  }
+  #footer{
+    margin: 0px;
+    padding-top: 20px;
+    position: relative;
+    height: 20px;
+    font-size: 12px;
+    text-align: right;
+    color: #6E6F6F;
+    background-color: rgb(64,64,64);
+}
   #logopic{
     position: absolute;
     left: 30px;
