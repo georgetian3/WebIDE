@@ -8,7 +8,7 @@ quilt push -a
 yarn
 mkdir ~/.config
 mkdir ~/.config/code-server
-echo "bind-addr: 127.0.0.1:8080
+echo "bind-addr: 0.0.0.0:8080
 auth: password
 password:
 cert: false" > ~/.config/code-server/config.yaml
