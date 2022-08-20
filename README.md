@@ -11,4 +11,4 @@ Run `yarn watch` under in the `code-server` folder. The output may prompt you to
 
 ```[VS Code] [watch-client    ] [xx:xx:xx] Finished compilation with x errors after xxxxx ms```
 
-After logging it, it will take a while for the IDE to load, this is to be expected.
+After logging in, it will take a while for the IDE to load, this is to be expected.
