@@ -144,7 +144,7 @@ export default {
   }
   #footer{
     margin: 0px;
-    padding-top: 20px;
+    padding-top: 10px;
     position: relative;
     height: 20px;
     font-size: 12px;
