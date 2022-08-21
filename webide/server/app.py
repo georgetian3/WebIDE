@@ -23,4 +23,4 @@ def catch_all(u_path):
     return 'catch all ' + u_path
 
 if __name__ == '__main__':
-    app.run(port=18081)
+    app.run('0.0.0.0', '18081')
