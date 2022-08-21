@@ -150,7 +150,7 @@ class ProjectManager:
         return self.__response(data=projects)
 
     def parse_request(self, request):
-
+        print("hello")
         if ('action' not in request or request['action'] not in self.__actions):
             return self.__response('bad_action')
 

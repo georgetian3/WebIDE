@@ -19,7 +19,7 @@
               <el-menu-item-group>
                 <el-menu-item index="1-1" class="el-icon-menu" id="createnew">
                   <el-button type="text" @click="dialogVisible = true">create new project</el-button>
-                  <el-dialog title="please type in the project name" :visible.sync="dialogVisible" width="30%"
+                  <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
                     <el-input v-model="input" id="pro_name"></el-input>
                     <span slot="footer" class="dialog-footer">
@@ -159,6 +159,9 @@ export default {
     z-index: 2;
     width:70px;
     float:left;
+  }
+  #pro_name{
+    width: 80%;
   }
   #createnew{
     top:0px;
