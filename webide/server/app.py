@@ -3,6 +3,7 @@ from projectmanager import ProjectManager
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.config.from_object(__name__)
 mgr = ProjectManager()
 
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -12,9 +13,9 @@ allStoredProjects = dict()
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     if request.method == 'POST':
-        # data = request.args.to_dict()
-        # projectname = data.get('name')
-        # allStoredProjects[projectname] = projectname
+        data = request.args.to_dict()
+        projectname = data.get('name')
+        allStoredProjects[projectname] = projectname
         return mgr.parse_request(request.get_json())
     else:
         # TODO: serves the projects main page
