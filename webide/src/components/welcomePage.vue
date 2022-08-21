@@ -21,7 +21,7 @@
                   <el-button type="text" @click="dialogVisible = true">create new project</el-button>
                   <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
-                    <el-input v-model="input" id="pro_name"></el-input>
+                    <el-input v-model="input" id="pro_name" clearable></el-input>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="create_new">确 定</el-button>
@@ -74,6 +74,11 @@ export default {
       tableData: Array(3).fill(item)
     }
   },
+  mounted () {
+    setInterval(() => {
+      this.getData()
+    }, 10000)
+  },
   methods: {
     create_new: function () {
       var proName = document.getElementById('pro_name').value
@@ -91,6 +96,18 @@ export default {
         body: JSON.stringify(data)
       })
       return response.json()
+    },
+    getData: function () {
+      var stats = {}
+      stats['action'] = 'getall'
+      var res = this.postData('http://127.0.0.1:5000/projects', stats)
+      console.log(res)
+      // console.log(Object.keys(res))
+      // if (Object.keys(res) ==  '') {
+      //   console.log('')
+      // } else {
+      //   this.tableData.fill(res.keys)
+      // }
     }
   }
 }
