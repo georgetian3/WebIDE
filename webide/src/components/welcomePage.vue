@@ -17,7 +17,17 @@
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>options</template>
               <el-menu-item-group>
-                <el-menu-item index="1-1" class="el-icon-menu" id="createnew">create new project</el-menu-item>
+                <el-menu-item index="1-1" class="el-icon-menu" id="createnew">
+                  <el-button type="text" @click="dialogVisible = true">create new project</el-button>
+                  <el-dialog title="please type in the project name" :visible.sync="dialogVisible" width="30%"
+                    :before-close="handleClose">
+                    <el-input v-model="input" id="pro_name"></el-input>
+                    <span slot="footer" class="dialog-footer">
+                      <el-button @click="dialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="create_new">确 定</el-button>
+                    </span>
+                  </el-dialog>
+                </el-menu-item>
                 <el-menu-item index="1-2" class="el-icon-setting" id="settings">settings</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -48,13 +58,39 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   data () {
     const item = {
       label: 'try'
     }
+    // return {
+    //   tableData: Array(3).fill(item)
+    // }
     return {
+      resources: [],
+      dialogVisible: false,
+      input: '',
       tableData: Array(3).fill(item)
+    }
+  },
+  methods: {
+    create_new: function () {
+      var proName = document.getElementById('pro_name').value
+      this.dialogVisible = false
+      var data = {}
+      data['action'] = 'create'
+      data['name'] = proName
+      var res = this.postData('http://127.0.0.1:5000/projects', data)
+      console.log(res)
+    },
+    async postData (url = '', data = {}) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      return response.json()
     }
   }
 }
