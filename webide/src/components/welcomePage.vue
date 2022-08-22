@@ -19,7 +19,7 @@
               <el-menu-item-group>
                 <el-menu-item index="1-1" class="el-icon-menu" id="createnew">
                   <el-button type="text" @click="dialogVisible = true">create new project</el-button>
-                  <el-dialog title="please type in the project name" :visible.sync="dialogVisible" width="30%"
+                  <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
                     <el-input v-model="input" id="pro_name"></el-input>
                     <span slot="footer" class="dialog-footer">
@@ -44,8 +44,23 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe>
-            <el-table-column prop="label" label="projects available"></el-table-column>
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename">
+            <el-table-column prop="label" label="projects available" class="table_column">
+            </el-table-column>
+            <el-table-column label="operations" width="130px">
+              <template v-slot="scope">
+                <el-button size="mini" type="rename" icon="el-icon-edit" @click="dialogVisibleNew=true"></el-button>
+                <el-dialog title="Type In The New Project Name" :visible.sync="dialogVisibleNew" width="30%"
+                  :before-close="handleClose">
+                  <el-input v-model="input" id="new_name"></el-input>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisibleNew = false">取 消</el-button>
+                    <el-button @click="rename(scope.row)">确 定</el-button>
+                  </span>
+                </el-dialog>
+                <el-button size="mini" type="delete" icon="el-icon-delete" @click="remove(scope.row)"></el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-main>
       </el-container>
@@ -57,28 +72,67 @@
 // import axios from 'axios'
 export default {
   data () {
-    const item = {
-      label: 'try'
-    }
+    // const item = {
+    //   label: 'try'
+    // }
     // return {
     //   tableData: Array(3).fill(item)
     // }
     return {
       resources: [],
       dialogVisible: false,
+      dialogVisibleNew: false,
       input: '',
-      tableData: Array(3).fill(item)
+      tableData: []
     }
   },
   methods: {
+    rename (row) {
+      var newProName = document.getElementById('new_name').value
+      this.dialogVisibleNew = false
+      var data = {}
+      data['action'] = 'rename'
+      data['old'] = row['label']
+      data['new'] = newProName
+      this.tableData[row['index']].label = newProName
+      var res = this.postData('http://127.0.0.1:5000/projects', data)
+      console.log(res)
+    },
+    async remove (row) {
+      var numOfRow = row['index']
+      const confirmRes = await this.$confirm('are you sure to delete this project?', '提示', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      }).catch(err => err)
+      if (confirmRes === 'cancel') {
+        return this.$message.info('delete canceled!')
+      } else if (confirmRes === 'confirm') {
+        var data = {}
+        data['action'] = 'delete'
+        data['name'] = this.tableData[row.index].label
+        var res = this.postData('http://127.0.0.1:5000/projects', data)
+        console.log(res)
+        this.tableData.splice(numOfRow, 1)
+        return this.$message.info('delete completed!')
+      }
+    },
+    // function for project creating
     create_new: function () {
       var proName = document.getElementById('pro_name').value
+      for (var rowName in this.tableData) {
+        // eslint-disable-next-line eqeqeq
+        if (this.tableData[rowName]['label'] === proName) {
+          this.dialogVisible = false
+          return this.$message.info('you cannot have two projects with the same name!')
+        }
+      }
       this.dialogVisible = false
       var data = {}
       data['action'] = 'create'
       data['name'] = proName
       var res = this.postData('http://127.0.0.1:5000/projects', data)
       console.log(res)
+      this.addProject(proName)
     },
     async postData (url = '', data = {}) {
       const response = await fetch(url, {
@@ -87,23 +141,30 @@ export default {
         body: JSON.stringify(data)
       })
       return response.json()
+    },
+    addProject: function (proName) {
+      let newProject = {}
+      newProject.label = proName
+      this.tableData.push(newProject)
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      row.index = rowIndex
     }
   }
 }
+
 </script>
 
 <style>
   * {
     text-align: center;
   }
-
   .el-header {
     background-color: rgb(200,200,200);
     color: #333;
     line-height: 61px;
     height: 61px !important;
   }
-
   .el-aside {
     color: #333;
     overflow: -moz-scrollbars-none;
@@ -114,7 +175,6 @@ export default {
   .el-col {
     border-radius: 4px;
   }
-
   .el-submenu__title{
     height: 40px;
     line-height: 46px;
@@ -134,6 +194,20 @@ export default {
     margin-bottom: 20px;
     margin-left: 80px;
   }
+  p{
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+  }
+  #footer{
+    margin: 0px;
+    padding-top: 10px;
+    position: relative;
+    height: 20px;
+    font-size: 12px;
+    text-align: right;
+    color: #6E6F6F;
+    background-color: rgb(64,64,64);
+}
   #logopic{
     position: absolute;
     left: 30px;
@@ -141,6 +215,9 @@ export default {
     z-index: 2;
     width:70px;
     float:left;
+  }
+  #pro_name{
+    width: 80%;
   }
   #createnew{
     top:0px;
@@ -179,5 +256,8 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: rgb(224,224,224);
+  }
+  .table_column {
+    text-align: left;
   }
 </style>

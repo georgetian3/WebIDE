@@ -54,6 +54,7 @@ class ProjectManager:
         """
         Create a new project by creating its corresponding directory
         """
+        print('sjit')
         if not self.__valid_name(name):
             return self.__response('invalid_name')
         if self.__project_exists(name):
@@ -87,6 +88,7 @@ class ProjectManager:
         """
         Delete a project by deleting its corresponding directory
         """
+        print(name)
         if not self.__project_exists(name):
             return self.__response('does_not_exist')
         shutil.rmtree(self.__root / name)
@@ -96,6 +98,7 @@ class ProjectManager:
         """
         Rename a project by renaming its corresponding directory
         """
+        print('rename')
         if not self.__project_exists(old):
             return self.__response('does_not_exist')
         if not self.__valid_name(new):
