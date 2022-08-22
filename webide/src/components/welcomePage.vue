@@ -100,7 +100,10 @@ export default {
   },
   methods: {
     jump: function (row) {
-      location.href = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
+      let myURL = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
+      let path = window.location.protocol + '//' + myURL
+      window.location.href = path
+      // location.href = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
     },
     rename (row) {
       var newProName = document.getElementById('new_name').value
