@@ -47,7 +47,7 @@ class ProjectManager:
     def __response(self, status='success', data=None):
         return {
             'status': status,
-            'data': None
+            'data': data
         }
 
     def create(self, name: str):
