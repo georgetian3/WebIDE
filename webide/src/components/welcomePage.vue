@@ -21,7 +21,7 @@
                   <el-button type="text" @click="dialogVisible = true">create new project</el-button>
                   <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
-                    <el-input v-model="input" id="pro_name"></el-input>
+                    <el-input v-model="input" id="pro_name" clearable></el-input>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="create_new">确 定</el-button>
@@ -65,6 +65,10 @@
         </el-main>
       </el-container>
     </el-container>
+    <div id="footer">
+      <p id="author">作者：陈俊哲、田正祺、孙冯元、梁烨</p>
+      <p>联系方式：xxx@mails.tsinghua.edu.cn</p>
+    </div>
   </div>
 </template>
 
@@ -85,6 +89,14 @@ export default {
       input: '',
       tableData: []
     }
+  },
+  created () {
+    this.getData()
+  },
+  mounted () {
+    setInterval(() => {
+      this.getData()
+    }, 10000)
   },
   methods: {
     rename (row) {
@@ -141,6 +153,23 @@ export default {
         body: JSON.stringify(data)
       })
       return response.json()
+    },
+    getData: function () {
+      var data = {}
+      data['action'] = 'getall'
+      var res = this.postData('http://127.0.0.1:5000/projects', data)
+      res.then(stats => {
+        var prolist = Object.keys(stats.data)
+        console.log(this.tableData)
+        if (prolist === '') {
+          console.log('')
+        } else {
+          this.tableData = []
+          for (var i = 0; i < prolist.length; i++) {
+            this.addProject(prolist[i])
+          }
+        }
+      })
     },
     addProject: function (proName) {
       let newProject = {}

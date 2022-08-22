@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+  </head>
+
+  <script>
+    async function postData(url = '', data = {}) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      return response.json();
+    }
+
+    function submit() {
+      action = document.getElementById('action').value;
+      arg1 = document.getElementById('arg1').value;
+      val1 = document.getElementById('val1').value;
+      arg2 = document.getElementById('arg2').value;
+      val2 = document.getElementById('val2').value;
+      print(action, arg1, val1, arg2, val2);
+      data = {};
+      data['action'] = action;
+      if (arg1 != '') {
+        data[arg1] = val1;
+      }
+      if (arg2 != '') {
+        data[arg2] = val2;
+      }
+      console.log(data);
+      res = postData('/projects', data);
+      console.log(res);
+      let s = JSON.stringify(res);
+      let div = document.getElementById('res')
+      div.innerHTML = JSON.stringify(res);
+    }
+  </script>
+
+  <body>
+
+    Action <input id="action"></input><br>
+    Arg1 <input id="arg1"></input>
+    Val1 <input id="val1"></input><br>
+    Arg2 <input id="arg2"></input>
+    Val2 <input id="val2"></input><br>
+    <button onclick="submit()">Submit</button><br>
+    <div id="res"></div>
+
+  </body>
+
+</html>
