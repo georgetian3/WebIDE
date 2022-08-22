@@ -131,7 +131,6 @@ class ProjectManager:
                 'accessed': int(stat.st_atime),
                 'created': int(f.read())
             }
-
         return self.__response(data=info)
 
 
@@ -145,8 +144,7 @@ class ProjectManager:
             info = self.info(project.name)
             if info['status'] == 'does_not_exist':
                 continue
-            projects[project.name] = info
-
+            projects[project.name] = info['data']
         return self.__response(data=projects)
 
     def parse_request(self, request):
