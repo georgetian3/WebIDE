@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template
 from projectmanager import ProjectManager
-#from flask_cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
-# app.config.from_object(__name__)
+app.config.from_object(__name__)
 mgr = ProjectManager()
 
-#CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 @app.route('/projects', methods=['GET', 'POST'])
@@ -26,5 +26,4 @@ def catch_all(u_path):
 
 
 if __name__ == '__main__':
-    print('sss')
-    app.run('0.0.0.0', '18081')
+    app.run('127.0.0.0', '18081')
