@@ -44,7 +44,7 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename">
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click="jump">
             <el-table-column prop="label" label="projects available" class="table_column">
             </el-table-column>
             <el-table-column label="operations" width="130px">
@@ -99,6 +99,9 @@ export default {
     }, 10000)
   },
   methods: {
+    jump: function (row) {
+      location.href = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
+    },
     rename (row) {
       var newProName = document.getElementById('new_name').value
       this.dialogVisibleNew = false
