@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     jump: function (row) {
-      let myURL = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
+      let myURL = 'http://webide.georgetian.com:18080/?folder=/home/user/tscode/' + row['label']
       let path = window.location.protocol + '//' + myURL
       window.location.href = path
       // location.href = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
