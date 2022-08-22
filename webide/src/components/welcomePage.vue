@@ -113,7 +113,7 @@ export default {
       data['old'] = row['label']
       data['new'] = newProName
       this.tableData[row['index']].label = newProName
-      var res = this.postData('http://127.0.0.1:18081/projects', data)
+      var res = this.postData('http://0.0.0.0:18081/projects', data)
       console.log(res)
     },
     async remove (row) {
@@ -128,7 +128,7 @@ export default {
         var data = {}
         data['action'] = 'delete'
         data['name'] = this.tableData[row.index].label
-        var res = this.postData('http://127.0.0.1:18081/projects', data)
+        var res = this.postData('http://0.0.0.0:18081/projects', data)
         console.log(res)
         this.tableData.splice(numOfRow, 1)
         return this.$message.info('delete completed!')
@@ -148,7 +148,7 @@ export default {
       var data = {}
       data['action'] = 'create'
       data['name'] = proName
-      var res = this.postData('http://127.0.0.1:18081/projects', data)
+      var res = this.postData('http://0.0.0.0:18081/projects', data)
       console.log(res)
       this.addProject(proName)
     },
@@ -163,7 +163,7 @@ export default {
     getData: function () {
       var data = {}
       data['action'] = 'getall'
-      var res = this.postData('http://127.0.0.1:18081/projects', data)
+      var res = this.postData('http://0.0.0.0:18081/projects', data)
       res.then(stats => {
         var prolist = Object.keys(stats.data)
         console.log(this.tableData)
