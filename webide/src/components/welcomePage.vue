@@ -44,8 +44,23 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe>
-            <el-table-column prop="label" label="projects available"></el-table-column>
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename">
+            <el-table-column prop="label" label="projects available" class="table_column">
+            </el-table-column>
+            <el-table-column label="operations" width="130px">
+              <template v-slot="scope">
+                <el-button size="mini" type="rename" icon="el-icon-edit" @click="dialogVisibleNew=true"></el-button>
+                <el-dialog title="Type In The New Project Name" :visible.sync="dialogVisibleNew" width="30%"
+                  :before-close="handleClose">
+                  <el-input v-model="input" id="new_name"></el-input>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisibleNew = false">取 消</el-button>
+                    <el-button @click="rename(scope.row)">确 定</el-button>
+                  </span>
+                </el-dialog>
+                <el-button size="mini" type="delete" icon="el-icon-delete" @click="remove(scope.row)"></el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-main>
       </el-container>
@@ -61,18 +76,22 @@
 // import axios from 'axios'
 export default {
   data () {
-    const item = {
-      label: 'try'
-    }
+    // const item = {
+    //   label: 'try'
+    // }
     // return {
     //   tableData: Array(3).fill(item)
     // }
     return {
       resources: [],
       dialogVisible: false,
+      dialogVisibleNew: false,
       input: '',
-      tableData: Array(3).fill(item)
+      tableData: []
     }
+  },
+  created () {
+    this.getData()
   },
   mounted () {
     setInterval(() => {
@@ -80,14 +99,51 @@ export default {
     }, 10000)
   },
   methods: {
+    rename (row) {
+      var newProName = document.getElementById('new_name').value
+      this.dialogVisibleNew = false
+      var data = {}
+      data['action'] = 'rename'
+      data['old'] = row['name']
+      data['new'] = newProName
+      this.tableData[row['index']].label = newProName
+      var res = this.postData('http://127.0.0.1:5000/projects', data)
+      console.log(res)
+    },
+    async remove (row) {
+      var numOfRow = row['index']
+      const confirmRes = await this.$confirm('are you sure to delete this project?', '提示', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      }).catch(err => err)
+      if (confirmRes === 'cancel') {
+        return this.$message.info('delete canceled!')
+      } else if (confirmRes === 'confirm') {
+        var data = {}
+        data['action'] = 'delete'
+        data['name'] = this.tableData[row.index].label
+        var res = this.postData('http://127.0.0.1:5000/projects', data)
+        console.log(res)
+        this.tableData.splice(numOfRow, 1)
+        return this.$message.info('delete completed!')
+      }
+    },
     create_new: function () {
       var proName = document.getElementById('pro_name').value
+      for (var rowName in this.tableData) {
+        // eslint-disable-next-line eqeqeq
+        if (this.tableData[rowName]['label'] === proName) {
+          this.dialogVisible = false
+          return this.$message.info('you cannot have two projects with the same name!')
+        }
+      }
       this.dialogVisible = false
       var data = {}
       data['action'] = 'create'
       data['name'] = proName
       var res = this.postData('http://127.0.0.1:5000/projects', data)
       console.log(res)
+      this.addProject(proName)
     },
     async postData (url = '', data = {}) {
       const response = await fetch(url, {
@@ -98,16 +154,29 @@ export default {
       return response.json()
     },
     getData: function () {
-      var stats = {}
-      stats['action'] = 'getall'
-      var res = this.postData('http://127.0.0.1:5000/projects', stats)
-      console.log(res)
-      // console.log(Object.keys(res))
-      // if (Object.keys(res) ==  '') {
-      //   console.log('')
-      // } else {
-      //   this.tableData.fill(res.keys)
-      // }
+      var data = {}
+      data['action'] = 'getall'
+      var res = this.postData('http://127.0.0.1:5000/projects', data)
+      res.then(stats => {
+        var prolist = Object.keys(stats.data)
+        console.log(this.tableData)
+        if (prolist === '') {
+          console.log('')
+        } else {
+          this.tableData = []
+          for (var i = 0; i < prolist.length; i++) {
+            this.addProject(prolist[i])
+          }
+        }
+      })
+    },
+    addProject: function (proName) {
+      let newProject = {}
+      newProject.label = proName
+      this.tableData.push(newProject)
+    },
+    tableRowClassName ({ row, rowIndex }) {
+      row.index = rowIndex
     }
   }
 }
