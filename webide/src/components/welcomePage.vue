@@ -105,10 +105,9 @@ export default {
     nullsort (column) {
     },
     jump: function (row) {
-      // let myURL = 'webide.georgetian.com:18080/?folder=/home/user/tscode/' + row['label']
-      // let path = window.location.protocol + '//' + myURL
-      // window.location.href = path
-      window.alert('jump')
+      let myURL = 'webide.georgetian.com:18080/?folder=/home/user/tscode/' + row['label']
+      let path = window.location.protocol + '//' + myURL
+      window.location.href = path
     },
     changeRow (row) {
       this.currentRow = row['index']
