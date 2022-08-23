@@ -6,7 +6,7 @@
           <p>
             <img src="../assets/vscode-logo.png" id="logopic">
           </p>
-          <h2>Welcome to Pscode Online!</h2>
+          <h2>Welcome to Tscode Online!</h2>
         </div>
       </el-col>
     </el-row>
