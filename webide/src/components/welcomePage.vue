@@ -44,24 +44,26 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click="jump">
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename"
+            @row-click="jump">
             <el-table-column prop="label" label="projects available" class="table_column">
             </el-table-column>
             <el-table-column label="operations" width="130px">
               <template v-slot="scope">
-                <el-button size="mini" type="rename" icon="el-icon-edit" @click.native.stop="dialogVisibleNew=true"></el-button>
-                <el-dialog title="Type In The New Project Name" :visible.sync="dialogVisibleNew" width="30%"
-                  :before-close="handleClose">
-                  <el-input v-model="input" id="new_name"></el-input>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisibleNew = false">取 消</el-button>
-                    <el-button @click="rename(scope.row)">确 定</el-button>
-                  </span>
-                </el-dialog>
-                <el-button size="mini" type="delete" icon="el-icon-delete" @click.native.stop="remove(scope.row)"></el-button>
+                <el-button size="mini" type="rename" icon="el-icon-edit" @click.stop="dialogVisibleNew = true, changeRow(scope.row)">
+                </el-button>
+                <el-button size="mini" type="delete" icon="el-icon-delete" @click.stop="remove(scope.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
+          <el-dialog title="Type In The New Project Name" :visible.sync="dialogVisibleNew" width="30%"
+            :before-close="handleClose">
+            <el-input v-model="input" id="new_name" @click.stop=""></el-input>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click.stop="dialogVisibleNew = false">取 消</el-button>
+              <el-button @click.stop="rename()">确 定</el-button>
+            </span>
+          </el-dialog>
         </el-main>
       </el-container>
     </el-container>
@@ -87,7 +89,8 @@ export default {
       dialogVisible: false,
       dialogVisibleNew: false,
       input: '',
-      tableData: []
+      tableData: [],
+      currentRow: 0
     }
   },
   created () {
@@ -99,20 +102,25 @@ export default {
     }, 10000)
   },
   methods: {
-    jump: function (row) {
-      let myURL = 'webide.georgetian.com:18080/?folder=/home/user/tscode/' + row['label']
-      let path = window.location.protocol + '//' + myURL
-      window.location.href = path
-      // location.href = '0.0.0.0:18080/?folder=/home/user/tscode/' + row['label']
+    nullsort (column) {
     },
-    rename (row) {
-      var newProName = document.getElementById('new_name').value
+    jump: function (row) {
+      // let myURL = 'webide.georgetian.com:18080/?folder=/home/user/tscode/' + row['label']
+      // let path = window.location.protocol + '//' + myURL
+      // window.location.href = path
+      window.alert('jump')
+    },
+    changeRow (row) {
+      this.currentRow = row['index']
+    },
+    async rename () {
       this.dialogVisibleNew = false
+      var newProName = document.getElementById('new_name').value
       var data = {}
       data['action'] = 'rename'
-      data['old'] = row['label']
+      data['old'] = this.tableData[this.currentRow]['label']
       data['new'] = newProName
-      this.tableData[row['index']].label = newProName
+      this.tableData[this.currentRow].label = newProName
       var res = this.postData('http://webide.georgetian.com:18081/projects', data)
       console.log(res)
     },
