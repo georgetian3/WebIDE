@@ -44,7 +44,7 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click.native.stop="jump">
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click="jump">
             <el-table-column prop="label" label="projects available" class="table_column">
             </el-table-column>
             <el-table-column label="operations" width="130px">
