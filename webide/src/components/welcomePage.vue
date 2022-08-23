@@ -44,12 +44,12 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click="jump">
+          <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename" @row-click.native.stop="jump">
             <el-table-column prop="label" label="projects available" class="table_column">
             </el-table-column>
             <el-table-column label="operations" width="130px">
               <template v-slot="scope">
-                <el-button size="mini" type="rename" icon="el-icon-edit" @click="dialogVisibleNew=true"></el-button>
+                <el-button size="mini" type="rename" icon="el-icon-edit" @click.native.stop="dialogVisibleNew=true"></el-button>
                 <el-dialog title="Type In The New Project Name" :visible.sync="dialogVisibleNew" width="30%"
                   :before-close="handleClose">
                   <el-input v-model="input" id="new_name"></el-input>
@@ -58,7 +58,7 @@
                     <el-button @click="rename(scope.row)">确 定</el-button>
                   </span>
                 </el-dialog>
-                <el-button size="mini" type="delete" icon="el-icon-delete" @click="remove(scope.row)"></el-button>
+                <el-button size="mini" type="delete" icon="el-icon-delete" @click.native.stop="remove(scope.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
