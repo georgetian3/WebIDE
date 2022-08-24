@@ -6,7 +6,7 @@
           <p>
             <img src="../assets/vscode-logo.png" id="logopic">
           </p>
-          <h2>Welcome to TSCode Online!</h2>
+          <h2>Welcome to Tscode Online!</h2>
         </div>
       </el-col>
     </el-row>
@@ -48,11 +48,13 @@
             @row-click="jump">
             <el-table-column prop="label" label="projects available" class="table_column">
             </el-table-column>
-            <el-table-column label="operations" width="130px">
+            <el-table-column label="operations" width="180px">
               <template v-slot="scope">
-                <el-button size="mini" type="rename" icon="el-icon-edit" @click.stop="dialogVisibleNew = true, changeRow(scope.row)">
+                <el-button size="mini" type="rename" icon="el-icon-edit"
+                  @click.stop="dialogVisibleNew = true, changeRow(scope.row)">
                 </el-button>
                 <el-button size="mini" type="delete" icon="el-icon-delete" @click.stop="remove(scope.row)"></el-button>
+                <el-button size="mini" type="upload" icon="el-icon-download" @click.stop="jarDownload(scope.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -102,6 +104,10 @@ export default {
     }, 10000)
   },
   methods: {
+    jarDownload (row) {
+      var projectName = row['label'] // name of the project
+      // TODO: function to download as jar
+    },
     nullsort (column) {
     },
     jump: function (row) {
