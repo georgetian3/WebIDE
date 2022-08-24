@@ -14,7 +14,6 @@ def projects():
     if request.method == 'POST':
         return mgr.parse_request(request.get_json())
     else:
-        # TODO: serves the projects main page
         return redirect('http://webide.georgetian.com:18082')
 
 
