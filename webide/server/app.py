@@ -16,7 +16,9 @@ def projects():
     else:
         return redirect('http://webide.georgetian.com:18082')
 
-
+@app.route('/<path:u_path>')
+def catch_all(u_path):
+    return redirect('http://webide.georgetian.com:18082')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', '18081')
