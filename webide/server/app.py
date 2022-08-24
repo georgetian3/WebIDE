@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, redirect
 from projectmanager import ProjectManager
 from flask_cors import CORS
 
@@ -15,14 +15,8 @@ def projects():
         return mgr.parse_request(request.get_json())
     else:
         # TODO: serves the projects main page
-        return render_template('index.html')
+        return redirect('http://webide.georgetian.com:18082')
 
-
-@app.route('/<path:u_path>')
-def catch_all(u_path):
-    print('catch all ' + u_path)
-    # TODO: route to code-server
-    return 'catch all ' + u_path
 
 
 if __name__ == '__main__':

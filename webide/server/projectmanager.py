@@ -30,7 +30,6 @@ class ProjectManager:
         if platform.system() == 'Windows':
             invalid_chars += '<>:"\\|?*'
         self.__invalid_chars_regex = re.compile(f'[{invalid_chars}]')
-
     def __valid_name(self, name):
         """
         Checks whether the name of the project is valid, i.e. not a subdirectory
@@ -47,7 +46,6 @@ class ProjectManager:
             'status': status,
             'data': data
         }
-
     def create(self, name: str):
         """
         Create a new project by creating its corresponding directory
@@ -61,7 +59,6 @@ class ProjectManager:
             f.write(str(int(time.time())))
 
         return self.__response()
-
     def upload(self, folder):
         """
         Upload a new project from the client to server
@@ -70,7 +67,6 @@ class ProjectManager:
         # TODO: accept upload
 
         return self.__response(data=None)
-
     def download(self, name: str):
         """
         Download the project as a zip from server to client
@@ -78,9 +74,7 @@ class ProjectManager:
         if not self.__project_exists(name):
             return 'does_not_exist'
         shutil.make_archive(name, 'zip', self.__root / name)
-
         return self.__response()
-
     def delete(self, name: str):
         """
         Delete a project by deleting its corresponding directory
@@ -89,7 +83,6 @@ class ProjectManager:
             return self.__response('does_not_exist')
         shutil.rmtree(self.__root / name)
         return self.__response()
-
     def rename(self, old: str, new: str):
         """
         Rename a project by renaming its corresponding directory
@@ -100,8 +93,6 @@ class ProjectManager:
             return self.__response('invalid_name')
         (self.__root / old).rename(self.__root / new)
         return self.__response()
-
-
     def info(self, name: str):
         """
         Return the info of the project named `name`
@@ -132,8 +123,6 @@ class ProjectManager:
                 'created': int(f.read())
             }
         return self.__response(data=info)
-
-
     def getall(self):
         """
         Get the info of all the projects under the root dir
@@ -146,7 +135,6 @@ class ProjectManager:
                 continue
             projects[project.name] = info['data']
         return self.__response(data=projects)
-
     def parse_request(self, request):
         if ('action' not in request or request['action'] not in self.__actions):
             return self.__response('bad_action')
