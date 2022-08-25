@@ -6,6 +6,12 @@ cd code-server
 git submodule update --init
 quilt push -a
 yarn
+yarn build
+yarn build:vscode
+yarn release
+cd release
+yarn --production
+
 mkdir ~/.config
 mkdir ~/.config/code-server
 echo "bind-addr: 0.0.0.0:8080
