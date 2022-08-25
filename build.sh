@@ -1,3 +1,5 @@
+#!/bin/bash
+
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt install -y jq nodejs build-essential g++ libx11-dev libxkbfile-dev libsecret-1-dev python-is-python3 git quilt
 sudo npm install yarn --global
