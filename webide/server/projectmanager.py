@@ -59,7 +59,7 @@ class ProjectManager:
             f.write(str(int(time.time())) + '\n')
             if lang == 'python':
                 f.write('python')
-                os.system(f'conda create -n {name} --clone base')
+                os.system(f'conda create -n "{name}" --clone base')
 
 
         return self.__response()
@@ -90,7 +90,7 @@ class ProjectManager:
         with open(self.__root / name / '.proj', encoding='utf8') as f:
             lang = f.readlines()[1].strip()
             if lang == 'python':
-                os.system(f'conda env remove --name {name} -y')
+                os.system(f'conda env remove --name "{name}" -y')
         shutil.rmtree(self.__root / name)
         return self.__response()
     def rename(self, old: str, new: str):
