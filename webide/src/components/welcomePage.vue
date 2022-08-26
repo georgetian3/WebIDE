@@ -22,10 +22,11 @@
                   <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
                     <el-input v-model="input" id="pro_name" clearable></el-input>
-                    <el-radio-group v-model="radio" id="lang" @change="create_new">
+                    <el-radio-group v-model="radio" @change="getValue" id="lang">
                       <el-radio :label="'python'">python</el-radio>
                       <el-radio :label="'java'">java</el-radio>
                       <el-radio :label="'matlab'">matlab</el-radio>
+                      <el-radio :label="'others'">others</el-radio>
                     </el-radio-group>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
@@ -91,7 +92,8 @@ export default {
       input: '',
       tableData: [],
       currentRow: 0,
-      radio: 'python'
+      radio: 'python',
+      inputLang: 'python'
     }
   },
   created () {
@@ -103,6 +105,9 @@ export default {
     }, 10000)
   },
   methods: {
+    getValue () {
+      this.inputLang = this.radio
+    },
     jarDownload (row) {
       // var projectName = row['label'] // name of the project
       // TODO: function to download as jar
@@ -149,8 +154,7 @@ export default {
     // function for project creating
     create_new: function () {
       var proName = document.getElementById('pro_name').value
-      var proType = this.radio
-      console.log(proType)
+      var proType = this.inputLang
       for (var rowName in this.tableData) {
         // eslint-disable-next-line eqeqeq
         if (this.tableData[rowName]['label'] === proName) {
