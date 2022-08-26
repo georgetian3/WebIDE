@@ -46,7 +46,7 @@ class ProjectManager:
             'status': status,
             'data': data
         }
-    def create(self, name: str, lang: str=''):
+    def create(self, name: str, lang: str='python'):
         """
         Create a new project by creating its corresponding directory
         """
@@ -60,7 +60,7 @@ class ProjectManager:
 
         if lang == 'python':
             os.system(f'conda create -n {name} --clone base')
-            
+
         return self.__response()
     def upload(self, folder):
         """
