@@ -155,6 +155,7 @@ export default {
     create_new: function () {
       var proName = document.getElementById('pro_name').value
       var proType = this.inputLang
+      console.log(proType)
       for (var rowName in this.tableData) {
         // eslint-disable-next-line eqeqeq
         if (this.tableData[rowName]['label'] === proName) {
