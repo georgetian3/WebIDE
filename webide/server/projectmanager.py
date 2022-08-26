@@ -3,7 +3,7 @@ import time
 import shutil
 import platform
 import re
-import base64
+import os
 
 
 class ProjectManager:
@@ -46,7 +46,7 @@ class ProjectManager:
             'status': status,
             'data': data
         }
-    def create(self, name: str):
+    def create(self, name: str, lang: str=''):
         """
         Create a new project by creating its corresponding directory
         """
@@ -58,6 +58,9 @@ class ProjectManager:
         with open(self.__root / name / '.proj', 'w') as f:
             f.write(str(int(time.time())))
 
+        if lang == 'python':
+            os.system(f'conda create -n {name} --clone base')
+            
         return self.__response()
     def upload(self, folder):
         """
