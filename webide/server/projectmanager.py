@@ -140,7 +140,7 @@ class ProjectManager:
                 'size': size,
                 'modified': int(stat.st_mtime),
                 'accessed': int(stat.st_atime),
-                'created': int(f.readlines()[0])
+                #'created': int(f.readlines()[0])
             }
         return self.__response(data=info)
     def getall(self):
