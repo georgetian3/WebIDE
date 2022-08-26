@@ -58,16 +58,16 @@ class ProjectManager:
         with open(self.__root / name / '.proj', 'w', encoding='utf8') as f:
             f.write(str(int(time.time())) + '\n')
             if lang == 'python':
-                m = open(self.__root / name / 'main.py','w')
+                open(self.__root / name / 'main.py', 'w')
                 f.write('python')
                 os.system(f'conda create -n "{name}" --clone base')
             elif lang == 'java':
-                m = open(self.__root / name / 'main.java','w')
+                open(self.__root / name / 'main.java', 'w')
                 f.write('java')
             elif lang == 'matlab':
-                m = open(self.__root / name / 'main.m','w')
+                open(self.__root / name / 'main.m', 'w')
                 f.write('matlab')
-            else :
+            else:
                 f.write('others')
 
 
