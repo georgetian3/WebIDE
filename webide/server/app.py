@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, jsonify
 from projectmanager import ProjectManager
 from flask_cors import CORS
 
@@ -12,7 +12,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     if request.method == 'POST':
-        return mgr.parse_request(request.get_json())
+        return jsonify(mgr.parse_request(request.get_json()))
     else:
         return redirect('http://webide.georgetian.com:18082')
 

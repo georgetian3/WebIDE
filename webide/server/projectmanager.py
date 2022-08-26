@@ -3,7 +3,7 @@ import time
 import shutil
 import platform
 import re
-import base64
+import os
 
 
 class ProjectManager:
@@ -46,7 +46,7 @@ class ProjectManager:
             'status': status,
             'data': data
         }
-    def create(self, name: str):
+    def create(self, name: str, lang: str='python'):
         """
         Create a new project by creating its corresponding directory
         """
@@ -55,8 +55,12 @@ class ProjectManager:
         if self.__project_exists(name):
             return self.__response('exists')
         (self.__root / name).mkdir()
-        with open(self.__root / name / '.proj', 'w') as f:
-            f.write(str(int(time.time())))
+        with open(self.__root / name / '.proj', 'w', encoding='utf8') as f:
+            f.write(str(int(time.time())) + '\n')
+            if lang == 'python':
+                f.write('python')
+                os.system(f'conda create -n "{name}" --clone base')
+
 
         return self.__response()
     def upload(self, folder):
@@ -73,6 +77,8 @@ class ProjectManager:
         """
         if not self.__project_exists(name):
             return 'does_not_exist'
+        # TODO: zip and send project
+
         shutil.make_archive(name, 'zip', self.__root / name)
         return self.__response()
     def delete(self, name: str):
@@ -81,6 +87,10 @@ class ProjectManager:
         """
         if not self.__project_exists(name):
             return self.__response('does_not_exist')
+        with open(self.__root / name / '.proj', encoding='utf8') as f:
+            lang = f.readlines()[1].strip()
+            if lang == 'python':
+                os.system(f'conda env remove --name "{name}" -y')
         shutil.rmtree(self.__root / name)
         return self.__response()
     def rename(self, old: str, new: str):
@@ -120,7 +130,7 @@ class ProjectManager:
                 'size': size,
                 'modified': int(stat.st_mtime),
                 'accessed': int(stat.st_atime),
-                'created': int(f.read())
+                'created': int(f.readlines()[0])
             }
         return self.__response(data=info)
     def getall(self):
