@@ -22,6 +22,11 @@
                   <el-dialog title="Type In The Project Name" :visible.sync="dialogVisible" width="30%"
                     :before-close="handleClose">
                     <el-input v-model="input" id="pro_name" clearable></el-input>
+                    <el-radio-group v-model="radio" id="lang" @change="create_new">
+                      <el-radio :label="'python'">python</el-radio>
+                      <el-radio :label="'java'">java</el-radio>
+                      <el-radio :label="'matlab'">matlab</el-radio>
+                    </el-radio-group>
                     <span slot="footer" class="dialog-footer">
                       <el-button @click="dialogVisible = false">取 消</el-button>
                       <el-button type="primary" @click="create_new">确 定</el-button>
@@ -42,7 +47,6 @@
             <el-menu-item index="2">my projects</el-menu-item>
           </el-menu>
         </el-header>
-
         <el-main>
           <el-table :data="tableData" stripe :row-class-name="tableRowClassName" @row-contextmenu="rename"
             @row-click="jump">
@@ -80,19 +84,14 @@
 // import axios from 'axios'
 export default {
   data () {
-    // const item = {
-    //   label: 'try'
-    // }
-    // return {
-    //   tableData: Array(3).fill(item)
-    // }
     return {
       resources: [],
       dialogVisible: false,
       dialogVisibleNew: false,
       input: '',
       tableData: [],
-      currentRow: 0
+      currentRow: 0,
+      radio: 'python'
     }
   },
   created () {
@@ -105,7 +104,7 @@ export default {
   },
   methods: {
     jarDownload (row) {
-      var projectName = row['label'] // name of the project
+      // var projectName = row['label'] // name of the project
       // TODO: function to download as jar
     },
     nullsort (column) {
@@ -150,6 +149,8 @@ export default {
     // function for project creating
     create_new: function () {
       var proName = document.getElementById('pro_name').value
+      var proType = this.radio
+      console.log(proType)
       for (var rowName in this.tableData) {
         // eslint-disable-next-line eqeqeq
         if (this.tableData[rowName]['label'] === proName) {
@@ -161,6 +162,7 @@ export default {
       var data = {}
       data['action'] = 'create'
       data['name'] = proName
+      data['lang'] = proType
       var res = this.postData('http://webide.georgetian.com:18081/projects', data)
       console.log(res)
       this.addProject(proName)
@@ -255,7 +257,13 @@ export default {
     text-align: right;
     color: #6E6F6F;
     background-color: rgb(64,64,64);
-}
+  }
+  #lang{
+    float: left;
+    position:relative;
+    padding-top: 10px;
+    left: 60px;
+  }
   #logopic{
     position: absolute;
     left: 30px;
