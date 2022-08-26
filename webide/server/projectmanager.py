@@ -111,7 +111,7 @@ class ProjectManager:
         if not self.__valid_name(new):
             return self.__response('invalid_name')
         (self.__root / old).rename(self.__root / new)
-        (pathlib.Path.home() / annaconda3 / envs / old).rename(pathlib.Path.home() / annaconda3 / envs / mew)
+        (pathlib.Path.home() / 'anaconda3' / 'envs' / old).rename(pathlib.Path.home() / 'anaconda3' / 'envs' / new)
         return self.__response()
     def info(self, name: str):
         """

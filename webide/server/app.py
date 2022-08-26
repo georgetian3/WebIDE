@@ -8,7 +8,6 @@ mgr = ProjectManager()
 
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     if request.method == 'POST':
